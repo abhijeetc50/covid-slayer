@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+
+import 'antd/dist/antd.css';
+import { Layout, Menu } from 'antd';
+
+import Login from './pages/login';
+import Dashboard from './pages/dashboard';
+import Battlefield from './pages/battlefield';
+
+const { Header, Footer, Content } = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Header className="mainHeader">
+        <Menu theme="dark" mode="horizontal">
+          <Menu.Item>Covid Slayer</Menu.Item>
+        </Menu>
+      </Header>
+      <Content>
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Login} />
+            <Route exact path='/dashboard' component={Dashboard} />
+            <Route exact path='/battlefield' component={Battlefield} />
+          </Switch>
+        </Router>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>Covid Slayer 2020. Created by Abhijeet for GEVME.</Footer>
+    </Layout>
+
   );
 }
 
