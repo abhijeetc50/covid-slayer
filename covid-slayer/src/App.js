@@ -10,6 +10,7 @@ import { Layout, Menu } from 'antd';
 
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
+import Register from './pages/register';
 import Battlefield from './pages/battlefield';
 
 const { Header, Footer, Content } = Layout;
@@ -27,6 +28,7 @@ function App() {
           <Switch>
             <Route exact path='/' component={Login} />
             <Route exact path='/dashboard' component={Dashboard} />
+            <Route exact path='/register' component={Register} />
             <Route exact path='/battlefield/:id' component={Battlefield} />
           </Switch>
         </Router>
