@@ -1,15 +1,35 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './style.css';
+import axios from 'axios';
 
 const Login = () => {
     const history = useHistory();
 
+    const domain = "http://localhost:8080/";
+
     const onFinish = (values) => {
-        console.log('Success:', values);
-        history.push('dashboard/');
+        const formData = new FormData();
+        formData.append('username', values.username ? values.username : '');
+        formData.append('password', values.password ? values.password : '');
+
+        axios.post(domain + 'v1/login', formData)
+            .then((response) => {
+                if (response.status === 200) {
+                    if (response.data.status == 'true') {
+                        localStorage.setItem("name",response.data.name);
+                        localStorage.setItem("user_id",response.data.user_id);
+                        history.push('dashboard/');
+                    }
+                } else {
+                    console.log("failed");
+                }
+            }, (error) => {
+                console.log(error)
+            });
+
     };
 
     return (
@@ -49,21 +69,11 @@ const Login = () => {
                             placeholder="Password"
                         />
                     </Form.Item>
-                    <Form.Item>
-                        <Form.Item name="remember" valuePropName="checked" noStyle>
-                            <Checkbox>Remember me</Checkbox>
-                        </Form.Item>
-
-                        <a className="login-form-forgot" href="">
-                            Forgot password
-                        </a>
-                    </Form.Item>
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
                         </Button>
-                        Or <a href="">register now!</a>
                     </Form.Item>
                 </Form>
             </Col>

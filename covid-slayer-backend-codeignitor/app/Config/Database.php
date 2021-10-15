@@ -32,14 +32,14 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => '',
+        'hostname' => '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
+        'username' => 'root',
         'password' => '',
-        'database' => '',
+        'database' => 'COVID_SLAYER',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'DBDebug'  => (ENVIRONMENT !== 'development'),
         'charset'  => 'utf8',
         'DBCollat' => 'utf8_general_ci',
         'swapPre'  => '',

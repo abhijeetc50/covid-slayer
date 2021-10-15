@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './style.css';
+import sha256 from 'crypto-js/sha256';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import {
     Form,
     Input,
@@ -46,10 +49,28 @@ const tailFormItemLayout = {
 const { Title } = Typography;
 
 const Register = () => {
+    const history = useHistory();
     const [form] = Form.useForm();
+    const domain = "http://localhost:8080/";
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        const formData = new FormData();
+        formData.append('name', values.name ? values.name : '');
+        formData.append('email', values.email ? values.email : '');
+        formData.append('age', values.age ? values.age : '');
+        formData.append('gender', values.gender ? values.gender : '');
+        formData.append('password', values.password ? values.password : '');
+
+        axios.post(domain + 'v1/register', formData)
+            .then((response) => {
+                if (response.status === 200) {
+                    history.push('/');
+                } else {
+                    console.log("failed");
+                }
+            }, (error) => {
+                console.log(error)
+            });
     };
 
     return (
@@ -63,6 +84,19 @@ const Register = () => {
                     onFinish={onFinish}
                     scrollToFirstError
                 >
+                    <Form.Item
+                        name="name"
+                        label="Full Name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your Name!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
                     <Form.Item
                         name="email"
                         label="E-mail"
