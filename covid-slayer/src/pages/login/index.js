@@ -1,11 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Row, Col } from 'antd';
 import styles from './style.css';
 
 const Login = () => {
+    const history = useHistory();
 
     const onFinish = (values) => {
         console.log('Success:', values);
+        history.push('dashboard/');
     };
 
     const onFinishFailed = (errorInfo) => {

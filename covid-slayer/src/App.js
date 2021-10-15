@@ -27,11 +27,11 @@ function App() {
           <Switch>
             <Route exact path='/' component={Login} />
             <Route exact path='/dashboard' component={Dashboard} />
-            <Route exact path='/battlefield' component={Battlefield} />
+            <Route exact path='/battlefield/:id' component={Battlefield} />
           </Switch>
         </Router>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Covid Slayer 2020. Created by Abhijeet for GEVME.</Footer>
+      <Footer style={{ textAlign: 'center' }}>Covid Slayer 2020.</Footer>
     </Layout>
 
   );

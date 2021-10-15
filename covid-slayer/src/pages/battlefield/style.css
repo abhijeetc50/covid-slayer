@@ -1,0 +1,9 @@
+.battleField{
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.scrollableList{
+    height: 431px;
+    overflow: auto;
+}
