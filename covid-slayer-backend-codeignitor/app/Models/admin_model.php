@@ -83,4 +83,55 @@ class Admin_model extends Model
 
         return $status;
     }
+
+    public function logGameData($data)
+    {
+        $db = \Config\Database::connect();
+
+        $game_id  = $data['game_id'];
+        $point  = $data['point'];
+        $playertype  = $data['playertype'];
+        $type  = $data['type'];
+
+        if ($db->simpleQuery("INSERT INTO GAME_LOG (GAME_ID, POINT, PLAYER_TYPE, ATTACK_TYPE) 
+        VALUES ('$game_id', '$point', '$playertype', '$type')")) {
+           $status = [
+            "status" => "true",
+        ];
+        } else {
+            $status = [
+                "status" => "false",
+            ];
+        }
+
+        return $status;
+    }
+
+    public function logWinner($data)
+    {
+        $db = \Config\Database::connect();
+
+        $game_id  = $data['game_id'];
+        $winner  = $data['winner'];
+
+        if( $winner == 'Monster'){
+            $status  = 'LOST';
+        }else{
+            $status  = 'WON';
+        }
+
+        if ($db->simpleQuery("UPDATE GAME_BIBLE 
+        SET STATUS = '$status' 
+        WHERE GAME_ID = '$game_id'")) {
+           $status = [
+            "status" => "true",
+        ];
+        } else {
+            $status = [
+                "status" => "false",
+            ];
+        }
+
+        return $status;
+    }
 }

@@ -1,48 +1,46 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Row, Col, Progress, Button, List } from 'antd';
 import { Typography } from 'antd';
 import styles from './style.css';
+import axios from 'axios';
 
 import ModalPopup from './../../components/modal';
 
 const { Title } = Typography;
 
-const Battlefield = ({ id }) => {
+const Battlefield = (match) => {
+    const history = useHistory();
+    const domain = "http://localhost:8080/";
+    const battleFieldID = match.match.params.id
     const [playerhealth, setPlayerhealth] = useState(100);
     const [covidMonsterHealth, setCovidMonsterHealth] = useState(100);
-    const [battleFieldID, setBattleFieldID] = useState('');
     const [winner, setWinner] = useState('');
     const [commentary, setCommentary] = useState([]);
     const [winnerModal, setWinnerModal] = useState(false);
 
-    const attackCovidMonster = () => {
-        var attackMonster = randomAttackNumber(1, 10);
-        var attackPlayer = randomAttackNumber(1, 10);
+    const attackCovidMonster = (type) => {
+        var attackMonster = '';
+        var attackPlayer = '';
+        if (type == 'attack') {
+            attackMonster = randomAttackNumber(1, 10);
+            attackPlayer = randomAttackNumber(1, 10);
+            logGame(-attackMonster, 'player', 'attack');
+            logGame(-attackPlayer, 'monster', 'attack');
+        } else {
+            attackMonster = randomAttackNumber(10, 20);
+            attackPlayer = randomAttackNumber(10, 20);
+            logGame(-attackMonster, 'player', 'blast');
+            logGame(-attackPlayer, 'monster', 'blast');
+        }
 
-        var updatedCommentary = [...commentary, "Monster attacks the player by " + attackPlayer];
+        var updatedCommentary = [...commentary, "Monster " + type + " the player by " + attackPlayer];
         setCommentary(updatedCommentary);
-        updatedCommentary = [...updatedCommentary, "Player attacks the monster by " + attackMonster];
-        setCommentary(updatedCommentary);
-
-        var covidMonsterHealthTemp =  covidMonsterHealth;
-        var playerhealthTemp =  playerhealth;
-
-        setCovidMonsterHealth(covidMonsterHealthTemp - attackMonster);
-        setPlayerhealth(playerhealthTemp - attackPlayer);
-        checkForWinner(covidMonsterHealthTemp - attackMonster, playerhealthTemp - attackPlayer);
-    }
-
-    const blastCovidMonster = () => {
-        var attackMonster = randomAttackNumber(10, 20);
-        var attackPlayer = randomAttackNumber(10, 20);
-
-        var updatedCommentary = [...commentary, "Monster blast the player by " + attackPlayer];
-        setCommentary(updatedCommentary);
-        updatedCommentary = [...updatedCommentary, "Player blast the monster by " + attackMonster];
+        updatedCommentary = [...updatedCommentary, "Player " + type + " the monster by " + attackMonster];
         setCommentary(updatedCommentary);
 
-        var covidMonsterHealthTemp =  covidMonsterHealth;
-        var playerhealthTemp =  playerhealth;
+        var covidMonsterHealthTemp = covidMonsterHealth;
+        var playerhealthTemp = playerhealth;
 
         setCovidMonsterHealth(covidMonsterHealthTemp - attackMonster);
         setPlayerhealth(playerhealthTemp - attackPlayer);
@@ -52,14 +50,16 @@ const Battlefield = ({ id }) => {
     const healCovidMonster = () => {
         var attackPlayer = randomAttackNumber(1, 10);
         var healPlayer = randomAttackNumber(10, 20);
+        logGame(healPlayer, 'player', 'heal');
+        logGame(-attackPlayer, 'monster', 'attack');
 
         var updatedCommentary = [...commentary, "Monster attacks the player by " + attackPlayer];
         setCommentary(updatedCommentary);
         updatedCommentary = [...updatedCommentary, "Player heals by " + healPlayer];
         setCommentary(updatedCommentary);
-        
-        var covidMonsterHealthTemp =  covidMonsterHealth;
-        var playerhealthTemp =  playerhealth;
+
+        var covidMonsterHealthTemp = covidMonsterHealth;
+        var playerhealthTemp = playerhealth;
         var playerhealthTemp = playerhealthTemp + healPlayer;
         var playerhealthTemp = playerhealthTemp - attackPlayer
 
@@ -68,18 +68,77 @@ const Battlefield = ({ id }) => {
         checkForWinner(covidMonsterHealthTemp, playerhealthTemp);
     }
 
+    const giveUp = () => {
+        history.push('../dashboard/');
+    }
+
     const randomAttackNumber = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
     const checkForWinner = (newMonsterHealth, newPlayerHealth) => {
+
         if (newMonsterHealth <= 0) {
             setWinner('Player');
             setWinnerModal(true)
+            const formData = new FormData();
+            formData.append('game_id', battleFieldID);
+            formData.append('winner', 'Player');
+
+            axios.post(domain + 'v1/logGameWinner', formData)
+                .then((response) => {
+                    if (response.status === 200) {
+                        if (response.data.status == 'true') {
+
+                        }
+                    } else {
+                        console.log("failed");
+                    }
+                }, (error) => {
+                    console.log(error)
+                });
         } else if (newPlayerHealth <= 0) {
             setWinner('Monster');
             setWinnerModal(true)
+            const formData = new FormData();
+            formData.append('game_id', battleFieldID);
+            formData.append('winner', 'Monster');
+
+            axios.post(domain + 'v1/logGameWinner', formData)
+                .then((response) => {
+                    if (response.status === 200) {
+                        if (response.data.status == 'true') {
+
+                        }
+                    } else {
+                        console.log("failed");
+                    }
+                }, (error) => {
+                    console.log(error)
+                });
         }
+    }
+
+    const logGame = (point, playertype, type) => {
+
+        const formData = new FormData();
+        formData.append('game_id', battleFieldID);
+        formData.append('point', point);
+        formData.append('playertype', playertype);
+        formData.append('type', type);
+
+        axios.post(domain + 'v1/logGame', formData)
+            .then((response) => {
+                if (response.status === 200) {
+                    if (response.data.status == 'true') {
+
+                    }
+                } else {
+                    console.log("failed");
+                }
+            }, (error) => {
+                console.log(error)
+            });
     }
 
     return (
@@ -126,12 +185,12 @@ const Battlefield = ({ id }) => {
                     </Row>
                     <Row>
                         <Col span={4} offset={2}>
-                            <Button type="danger" block size="large" onClick={attackCovidMonster}>
+                            <Button type="danger" block size="large" onClick={() => attackCovidMonster('attack')}>
                                 Attack
                             </Button>
                         </Col>
                         <Col span={4} offset={2}>
-                            <Button type="danger" block size="large" onClick={blastCovidMonster}>
+                            <Button type="danger" block size="large" onClick={() => attackCovidMonster('blast')}>
                                 Blast
                             </Button>
                         </Col>
@@ -143,7 +202,7 @@ const Battlefield = ({ id }) => {
                             </Button>
                         </Col>
                         <Col span={4} offset={2}>
-                            <Button type="primary" block size="large" onClick={attackCovidMonster}>
+                            <Button type="primary" block size="large" onClick={giveUp}>
                                 Give Up!
                             </Button>
                         </Col>

@@ -22,36 +22,51 @@ class V1 extends ResourceController
       return $this->respond($data);
     }
 
-      // all users
-      public function register(){
+    // all users
+    public function register(){
         $model = new Admin_model();
         $data  = $this->request->getPost();
 
         $res= $model->registerUser($data);
 
         return $this->respond($res);
-      }
+    }
 
-      // all users
-      public function login(){
+    
+    public function login(){
         $model = new Admin_model();
         $data  = $this->request->getPost();
 
         $res= $model->checkUserExists($data);
 
         return $this->respond($res);
-      }
+    }
 
       
-      public function registerGame(){
+    public function registerGame(){
         $model = new Admin_model();
         $data  = $this->request->getPost();
 
         $res= $model->registerNewGame($data);
 
         return $this->respond($res);
-      }
+    }
 
-      
+    public function logGame(){
+        $model = new Admin_model();
+        $data  = $this->request->getPost();
 
+        $res= $model->logGameData($data);
+
+        return $this->respond($res);
+    }
+
+    public function logGameWinner(){
+        $model = new Admin_model();
+        $data  = $this->request->getPost();
+
+        $res= $model->logWinner($data);
+
+        return $this->respond($res);
+    }
 }
