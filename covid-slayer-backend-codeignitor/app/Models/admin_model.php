@@ -30,27 +30,51 @@ class Admin_model extends Model
         return $query;
     }
 
+    public function getGameCountbyUser($data)
+    {
+        $db = \Config\Database::connect();
+
+        $id  = $data['id'];
+
+        $queryWon = $db->query("SELECT count(*) WON
+        FROM GAME_BIBLE 
+        WHERE STATUS = 'WON'
+        AND USER_ID = '$id'")->getResultArray();
+
+        $queryLost = $db->query("SELECT count(*) LOST
+        FROM GAME_BIBLE 
+        WHERE STATUS = 'LOST'
+        AND USER_ID = '$id'")->getResultArray();
+
+        $data = [];
+        $data["WON"] = $queryWon;
+        $data["LOST"] = $queryLost;
+
+        return $data;
+    }
+
     public function getGainerLoser()
     {
         $db = \Config\Database::connect();
 
-        $query_gainer = $db->query("SELECT USER_ID, COUNT(GAME_ID) COUNT
-        FROM GAME_BIBLE
-        WHERE STATUS  = 'WON'
-        GROUP BY USER_ID 
-        ORDER BY COUNT(GAME_ID) DESC")->getResultArray();
+        $query_gainer = $db->query("SELECT B.NAME,  A.USER_ID, COUNT(A.GAME_ID) COUNT
+        FROM GAME_BIBLE A
+        JOIN USERS B ON A.USER_ID = B.ID
+        WHERE A.STATUS  = 'WON'
+        GROUP BY A.USER_ID 
+        ORDER BY COUNT(A.GAME_ID) DESC")->getResultArray();
     
-        $query_loser = $db->query("SELECT USER_ID, COUNT(GAME_ID) COUNT
-        FROM GAME_BIBLE
-        WHERE STATUS  = 'LOST'
-        GROUP BY USER_ID 
-        ORDER BY COUNT(GAME_ID) DESC")->getResultArray();
+        $query_loser = $db->query("SELECT B.NAME,  A.USER_ID, COUNT(A.GAME_ID) COUNT
+        FROM GAME_BIBLE A
+        JOIN USERS B ON A.USER_ID = B.ID
+        WHERE A.STATUS  = 'LOST'
+        GROUP BY A.USER_ID 
+        ORDER BY COUNT(A.GAME_ID) DESC")->getResultArray();
 
         $data = [];
         $data["GAINERS"] =  $query_gainer;
         $data["LOSERS"] =  $query_loser;
       
-       
         return $data;
     }
 

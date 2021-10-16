@@ -69,6 +69,7 @@ const Battlefield = (match) => {
     }
 
     const giveUp = () => {
+        logGameWinner('Monster');
         history.push('../dashboard/');
     }
 
@@ -81,42 +82,34 @@ const Battlefield = (match) => {
         if (newMonsterHealth <= 0) {
             setWinner('Player');
             setWinnerModal(true)
-            const formData = new FormData();
-            formData.append('game_id', battleFieldID);
-            formData.append('winner', 'Player');
-
-            axios.post(domain + 'v1/logGameWinner', formData)
-                .then((response) => {
-                    if (response.status === 200) {
-                        if (response.data.status == 'true') {
-
-                        }
-                    } else {
-                        console.log("failed");
-                    }
-                }, (error) => {
-                    console.log(error)
-                });
+            logGameWinner('Player');
+            history.push('../dashboard/');
         } else if (newPlayerHealth <= 0) {
             setWinner('Monster');
             setWinnerModal(true)
-            const formData = new FormData();
-            formData.append('game_id', battleFieldID);
-            formData.append('winner', 'Monster');
-
-            axios.post(domain + 'v1/logGameWinner', formData)
-                .then((response) => {
-                    if (response.status === 200) {
-                        if (response.data.status == 'true') {
-
-                        }
-                    } else {
-                        console.log("failed");
-                    }
-                }, (error) => {
-                    console.log(error)
-                });
+            logGameWinner('Monster');
+            history.push('../dashboard/');
         }
+    }
+
+    const logGameWinner = (winnerPlayer) => {
+
+        const formData = new FormData();
+        formData.append('game_id', battleFieldID);
+        formData.append('winner', winnerPlayer);
+
+        axios.post(domain + 'v1/logGameWinner', formData)
+            .then((response) => {
+                if (response.status === 200) {
+                    if (response.data.status == 'true') {
+
+                    }
+                } else {
+                    console.log("failed");
+                }
+            }, (error) => {
+                console.log(error)
+            });
     }
 
     const logGame = (point, playertype, type) => {

@@ -82,4 +82,11 @@ class V1 extends ResourceController
         $data= $model->getGainerLoser();
         return $this->respond($data);
     }
+
+    public function getUserGameCount(){
+        $model = new Admin_model();
+        $data  = $this->request->getPost();
+        $data= $model->getGameCountbyUser($data);
+        return $this->respond($data);
+    }
 }
