@@ -4,9 +4,11 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './style.css';
 import axios from 'axios';
+import { useAlert } from 'react-alert';
 
 var md5 = require('md5');
 const Login = () => {
+    const alert = useAlert();
     const history = useHistory();
 
     const domain = "http://localhost:8080/";
@@ -22,6 +24,7 @@ const Login = () => {
                     if (response.data.status === 'true') {
                         localStorage.setItem("name",response.data.name);
                         localStorage.setItem("user_id",response.data.user_id);
+                        alert.success('Welcome, '+ response.data.name)
                         history.push('dashboard/');
                     }
                 } else {

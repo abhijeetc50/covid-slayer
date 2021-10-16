@@ -12,6 +12,7 @@ import {
     Button,
     Typography
 } from 'antd';
+import { useAlert } from 'react-alert';
 const { Option } = Select;
 
 const formItemLayout = {
@@ -49,6 +50,7 @@ const { Title } = Typography;
 var md5 = require('md5');
 
 const Register = () => {
+    const alert = useAlert();
     const history = useHistory();
     const [form] = Form.useForm();
     const domain = "http://localhost:8080/";
@@ -65,6 +67,7 @@ const Register = () => {
             .then((response) => {
                 if (response.status === 200) {
                     history.push('/');
+                    alert.success('Registration Done. Login to Continue!')
                 } else {
                     console.log("failed");
                 }

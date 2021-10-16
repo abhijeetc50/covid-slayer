@@ -4,12 +4,14 @@ import { Row, Col, Progress, Button, List } from 'antd';
 import { Typography } from 'antd';
 import styles from './style.css';
 import axios from 'axios';
+import { useAlert } from 'react-alert';
 
 import ModalPopup from './../../components/modal';
 
 const { Title } = Typography;
 
 const Battlefield = (match) => {
+    const alert = useAlert();
     const history = useHistory();
     const domain = "http://localhost:8080/";
     const battleFieldID = match.match.params.id
@@ -83,11 +85,13 @@ const Battlefield = (match) => {
             setWinner('Player');
             setWinnerModal(true)
             logGameWinner('Player');
+            alert.success('Player Won!')
             history.push('../dashboard/');
         } else if (newPlayerHealth <= 0) {
             setWinner('Monster');
             setWinnerModal(true)
             logGameWinner('Monster');
+            alert.error('Monster Won! You Lost')
             history.push('../dashboard/');
         }
     }
