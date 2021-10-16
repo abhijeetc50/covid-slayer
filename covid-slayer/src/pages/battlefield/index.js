@@ -24,9 +24,12 @@ const Battlefield = ({ id }) => {
         updatedCommentary = [...updatedCommentary, "Player attacks the monster by " + attackMonster];
         setCommentary(updatedCommentary);
 
-        setCovidMonsterHealth(covidMonsterHealth - attackMonster);
-        setPlayerhealth(playerhealth - attackPlayer);
-        checkForWinner();
+        var covidMonsterHealthTemp =  covidMonsterHealth;
+        var playerhealthTemp =  playerhealth;
+
+        setCovidMonsterHealth(covidMonsterHealthTemp - attackMonster);
+        setPlayerhealth(playerhealthTemp - attackPlayer);
+        checkForWinner(covidMonsterHealthTemp - attackMonster, playerhealthTemp - attackPlayer);
     }
 
     const blastCovidMonster = () => {
@@ -38,9 +41,12 @@ const Battlefield = ({ id }) => {
         updatedCommentary = [...updatedCommentary, "Player blast the monster by " + attackMonster];
         setCommentary(updatedCommentary);
 
-        setCovidMonsterHealth(covidMonsterHealth - attackMonster);
-        setPlayerhealth(playerhealth - attackPlayer);
-        checkForWinner();
+        var covidMonsterHealthTemp =  covidMonsterHealth;
+        var playerhealthTemp =  playerhealth;
+
+        setCovidMonsterHealth(covidMonsterHealthTemp - attackMonster);
+        setPlayerhealth(playerhealthTemp - attackPlayer);
+        checkForWinner(covidMonsterHealthTemp - attackMonster, playerhealthTemp - attackPlayer);
     }
 
     const healCovidMonster = () => {
@@ -51,21 +57,26 @@ const Battlefield = ({ id }) => {
         setCommentary(updatedCommentary);
         updatedCommentary = [...updatedCommentary, "Player heals by " + healPlayer];
         setCommentary(updatedCommentary);
+        
+        var covidMonsterHealthTemp =  covidMonsterHealth;
+        var playerhealthTemp =  playerhealth;
+        var playerhealthTemp = playerhealthTemp + healPlayer;
+        var playerhealthTemp = playerhealthTemp - attackPlayer
 
-        setPlayerhealth(playerhealth + healPlayer);
-        setPlayerhealth(playerhealth - attackPlayer);
-        checkForWinner();
+        setPlayerhealth(playerhealthTemp);
+
+        checkForWinner(covidMonsterHealthTemp, playerhealthTemp);
     }
 
     const randomAttackNumber = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
-    const checkForWinner = () => {
-        if (covidMonsterHealth <= 0 && playerhealth > 0) {
+    const checkForWinner = (newMonsterHealth, newPlayerHealth) => {
+        if (newMonsterHealth <= 0) {
             setWinner('Player');
             setWinnerModal(true)
-        } else if (playerhealth <= 0 && covidMonsterHealth > 0) {
+        } else if (newPlayerHealth <= 0) {
             setWinner('Monster');
             setWinnerModal(true)
         }
