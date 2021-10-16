@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './style.css';
 import axios from 'axios';
 
+var md5 = require('md5');
 const Login = () => {
     const history = useHistory();
 
@@ -13,12 +14,12 @@ const Login = () => {
     const onFinish = (values) => {
         const formData = new FormData();
         formData.append('username', values.username ? values.username : '');
-        formData.append('password', values.password ? values.password : '');
+        formData.append('password', values.password ? md5(values.password) : '');
 
         axios.post(domain + 'v1/login', formData)
             .then((response) => {
                 if (response.status === 200) {
-                    if (response.data.status == 'true') {
+                    if (response.data.status === 'true') {
                         localStorage.setItem("name",response.data.name);
                         localStorage.setItem("user_id",response.data.user_id);
                         history.push('dashboard/');

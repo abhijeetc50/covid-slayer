@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './style.css';
-import sha256 from 'crypto-js/sha256';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -47,6 +46,7 @@ const tailFormItemLayout = {
 };
 
 const { Title } = Typography;
+var md5 = require('md5');
 
 const Register = () => {
     const history = useHistory();
@@ -59,7 +59,7 @@ const Register = () => {
         formData.append('email', values.email ? values.email : '');
         formData.append('age', values.age ? values.age : '');
         formData.append('gender', values.gender ? values.gender : '');
-        formData.append('password', values.password ? values.password : '');
+        formData.append('password', values.password ? md5(values.password) : '');
 
         axios.post(domain + 'v1/register', formData)
             .then((response) => {

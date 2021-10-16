@@ -69,4 +69,17 @@ class V1 extends ResourceController
 
         return $this->respond($res);
     }
+
+    public function getUserGameLog(){
+        $model = new Admin_model();
+        $data  = $this->request->getPost();
+        $data= $model->getGameLogbyUser($data);
+        return $this->respond($data);
+    }
+
+    public function getTopGainerandLosers(){
+        $model = new Admin_model();
+        $data= $model->getGainerLoser();
+        return $this->respond($data);
+    }
 }

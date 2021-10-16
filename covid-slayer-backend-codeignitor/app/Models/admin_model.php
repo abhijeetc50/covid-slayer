@@ -13,8 +13,45 @@ class Admin_model extends Model
     public function getAllUsers()
     {
         $db = \Config\Database::connect();
-        $query = $db->query('SELECT * FROM USERS')->getResult();
+        $query = $db->query('SELECT * FROM USERS')->getResultArray();
         return $query;
+    }
+
+    public function getGameLogbyUser($data)
+    {
+        $id  = $data['id'];
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT ID, 
+        GAME_ID, STATUS, 
+        DATE(CREATED_AT) DATE 
+        FROM GAME_BIBLE 
+        WHERE USER_ID = '$id'
+        ORDER BY CREATED_AT DESC")->getResultArray();
+        return $query;
+    }
+
+    public function getGainerLoser()
+    {
+        $db = \Config\Database::connect();
+
+        $query_gainer = $db->query("SELECT USER_ID, COUNT(GAME_ID) COUNT
+        FROM GAME_BIBLE
+        WHERE STATUS  = 'WON'
+        GROUP BY USER_ID 
+        ORDER BY COUNT(GAME_ID) DESC")->getResultArray();
+    
+        $query_loser = $db->query("SELECT USER_ID, COUNT(GAME_ID) COUNT
+        FROM GAME_BIBLE
+        WHERE STATUS  = 'LOST'
+        GROUP BY USER_ID 
+        ORDER BY COUNT(GAME_ID) DESC")->getResultArray();
+
+        $data = [];
+        $data["GAINERS"] =  $query_gainer;
+        $data["LOSERS"] =  $query_loser;
+      
+       
+        return $data;
     }
 
     // create
