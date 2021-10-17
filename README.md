@@ -29,3 +29,5 @@ php spark serve
 ```
 # Demo
 https://abhijeetc50.github.io/covid-slayer/
+
+# Screenshots
