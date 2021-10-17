@@ -53,7 +53,8 @@ const Register = () => {
     const alert = useAlert();
     const history = useHistory();
     const [form] = Form.useForm();
-    const domain = process.env.REACT_APP_API_URL;
+    //const domain = process.env.REACT_APP_API_URL;
+    const domain = "https://64.227.185.251/public/index.php/";
 
     const onFinish = (values) => {
         const formData = new FormData();
@@ -66,7 +67,7 @@ const Register = () => {
         axios.post(domain + 'v1/register', formData)
             .then((response) => {
                 if (response.status === 200) {
-                    history.push('/');
+                    history.push('/login');
                     alert.success('Registration Done. Login to Continue!')
                 } else {
                     console.log("failed");

@@ -7,8 +7,8 @@ const { Title } = Typography;
 const Topgamers = () => {
     const [topGainer, setTopGainers] = useState([]);
     const [topLosers, setTopLosers] = useState([]);
-    const domain = process.env.REACT_APP_API_URL;
-
+   //const domain = process.env.REACT_APP_API_URL;
+   const domain = "https://64.227.185.251/public/index.php/";
     const topGainerLosersColumns = [
         {
             title: 'NAME',

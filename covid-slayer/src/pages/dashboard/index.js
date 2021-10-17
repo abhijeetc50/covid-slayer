@@ -13,10 +13,11 @@ const Dashboard = () => {
     const [userGameWon, setUserGameWon] = useState(0);
     const [userGameLost, setUserGameLost] = useState(0);
     const history = useHistory();
-    const domain = process.env.REACT_APP_API_URL;
+    //const domain = process.env.REACT_APP_API_URL;
+    const domain = "https://64.227.185.251/public/index.php/";
     var name = localStorage.getItem("name");
     if (localStorage.getItem("user_id") == null) {
-        history.push('/');
+        history.push('/login');
         console.log(localStorage.getItem("user_id"))
     }
 

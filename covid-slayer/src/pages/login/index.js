@@ -10,7 +10,8 @@ var md5 = require('md5');
 const Login = () => {
     const alert = useAlert();
     const history = useHistory();
-    const domain = process.env.REACT_APP_API_URL;
+    //const domain = process.env.REACT_APP_API_URL;
+    const domain = "https://64.227.185.251/public/index.php/";
 
     const onFinish = (values) => {
         const formData = new FormData();

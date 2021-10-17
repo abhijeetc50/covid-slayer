@@ -6,9 +6,9 @@ const { Title } = Typography;
 
 const Gamehistorydata = () => {
     const [gameHistory, setGameHistory] = useState([]);
-    const domain = process.env.REACT_APP_API_URL;
-
-
+    //const domain = process.env.REACT_APP_API_URL;
+    const domain = "https://64.227.185.251/public/index.php/";
+   
     const playerGameColumns = [
         {
             title: 'Game ID',

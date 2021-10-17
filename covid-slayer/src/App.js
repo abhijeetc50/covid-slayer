@@ -12,6 +12,7 @@ import Login from './pages/login';
 import Dashboard from './pages/dashboard';
 import Register from './pages/register';
 import Battlefield from './pages/battlefield';
+import PageNotFound from './pages/404';
 
 const { Header, Footer, Content } = Layout;
 
@@ -26,10 +27,14 @@ function App() {
       <Content>
         <Router>
           <Switch>
+            <Route exact path='/covid-slayer' component={Login} />
             <Route exact path='/' component={Login} />
+            <Route exact path='/login' component={Login} />
             <Route exact path='/dashboard' component={Dashboard} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/battlefield/:id' component={Battlefield} />
+
+            <Route component={PageNotFound} />
           </Switch>
         </Router>
       </Content>

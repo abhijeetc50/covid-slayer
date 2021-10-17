@@ -8,7 +8,7 @@ const Logout = () => {
     const logout = () => {
         localStorage.removeItem('user_id');
         localStorage.removeItem('name');
-        history.push('/');
+        history.push('/login');
     }
 
     return (
