@@ -131,8 +131,8 @@ class Admin_model extends Model
         $game_id  = $data['game_id'];
         $user_id  = $data['user_id'];
 
-        if ($db->simpleQuery("INSERT INTO GAME_BIBLE (GAME_ID, USER_ID) 
-        VALUES ('$game_id', '$user_id')")) {
+        if ($db->simpleQuery("INSERT INTO GAME_BIBLE (GAME_ID, USER_ID, STATUS) 
+        VALUES ('$game_id', '$user_id', 'LOST')")) {
            $status = [
             "status" => "true",
         ];

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import styles from './style.css';
+import './style.css';
 import axios from 'axios';
 import { useAlert } from 'react-alert';
 
@@ -22,19 +22,25 @@ const Login = () => {
             .then((response) => {
                 if (response.status === 200) {
                     if (response.data.status === 'true') {
-                        localStorage.setItem("name",response.data.name);
-                        localStorage.setItem("user_id",response.data.user_id);
-                        alert.success('Welcome, '+ response.data.name)
+                        localStorage.setItem("name", response.data.name);
+                        localStorage.setItem("user_id", response.data.user_id);
+                        alert.success('Welcome, ' + response.data.name)
                         history.push('dashboard/');
+                    }else{
+                        alert.error('Sorry, the credentials dont match. Please try again.')
                     }
                 } else {
-                    console.log("failed");
+                    alert.error('Something went wrong! Please try again.')
                 }
             }, (error) => {
                 console.log(error)
             });
 
     };
+
+    const gotoRegister = () => {
+        history.push('/register');
+    }
 
     return (
         <Row>
@@ -75,11 +81,15 @@ const Login = () => {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className="login-form-button">
+                        <Button type="primary" size="large" htmlType="submit" block className="login-form-button">
                             Log in
                         </Button>
                     </Form.Item>
                 </Form>
+                <Divider>OR</Divider>
+                <Button type="primary" ghost block size="large" onClick={gotoRegister}>
+                    Register
+                </Button>
             </Col>
         </Row>
     );

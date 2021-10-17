@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import { Row, Col, Progress, Button, List } from 'antd';
+import { Row, Col, Progress, Button } from 'antd';
 import { Typography } from 'antd';
-import styles from './style.css';
+import './style.css';
 import axios from 'axios';
 import { useAlert } from 'react-alert';
 
 import ModalPopup from './../../components/modal';
+import Logout from './../../components/logout';
+import Commentarybox from './../../components/commentarybox';
 
 const { Title } = Typography;
 
@@ -24,7 +26,7 @@ const Battlefield = (match) => {
     const attackCovidMonster = (type) => {
         var attackMonster = '';
         var attackPlayer = '';
-        if (type == 'attack') {
+        if (type === 'attack') {
             attackMonster = randomAttackNumber(1, 10);
             attackPlayer = randomAttackNumber(1, 10);
             logGame(-attackMonster, 'player', 'attack');
@@ -62,8 +64,8 @@ const Battlefield = (match) => {
 
         var covidMonsterHealthTemp = covidMonsterHealth;
         var playerhealthTemp = playerhealth;
-        var playerhealthTemp = playerhealthTemp + healPlayer;
-        var playerhealthTemp = playerhealthTemp - attackPlayer
+        playerhealthTemp = playerhealthTemp + healPlayer;
+        playerhealthTemp = playerhealthTemp - attackPlayer
 
         setPlayerhealth(playerhealthTemp);
 
@@ -105,7 +107,7 @@ const Battlefield = (match) => {
         axios.post(domain + 'v1/logGameWinner', formData)
             .then((response) => {
                 if (response.status === 200) {
-                    if (response.data.status == 'true') {
+                    if (response.data.status === 'true') {
 
                     }
                 } else {
@@ -127,7 +129,7 @@ const Battlefield = (match) => {
         axios.post(domain + 'v1/logGame', formData)
             .then((response) => {
                 if (response.status === 200) {
-                    if (response.data.status == 'true') {
+                    if (response.data.status === 'true') {
 
                     }
                 } else {
@@ -141,6 +143,7 @@ const Battlefield = (match) => {
     return (
         <>
             <ModalPopup title="Winner Winner Chicken Dinner" content={winner} visible={winnerModal} />
+            <Logout />
             <Row>
                 <Col span={12} offset={3}>
                     <Row className="battleField">
@@ -206,14 +209,7 @@ const Battlefield = (match) => {
                     </Row>
                 </Col>
                 <Col span={6} offset={1}>
-                    <Title level={2}>Commentary Box</Title>
-                    <List
-                        className="scrollableList"
-                        size="small"
-                        bordered
-                        dataSource={commentary}
-                        renderItem={item => <List.Item>{item}</List.Item>}
-                    />
+                    <Commentarybox commentary={commentary}/>
                 </Col>
             </Row>
         </>
