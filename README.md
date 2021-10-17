@@ -31,3 +31,18 @@ php spark serve
 https://abhijeetc50.github.io/covid-slayer/
 
 # Screenshots
+https://ibb.co/yRKTmZk
+
+https://ibb.co/GfDnHNT
+
+https://ibb.co/qYg0dpc
+
+https://ibb.co/km3GVsj
+
+https://ibb.co/BHkykpf
+
+https://ibb.co/2cs7jhh
+
+https://ibb.co/yRKTmZk
+
+https://ibb.co/GfDnHNT
