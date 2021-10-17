@@ -15,7 +15,7 @@ const { Title } = Typography;
 const Battlefield = (match) => {
     const alert = useAlert();
     const history = useHistory();
-    const domain = "http://localhost:8080/";
+    const domain = process.env.REACT_APP_API_URL;
     const battleFieldID = match.match.params.id
     const [playerhealth, setPlayerhealth] = useState(100);
     const [covidMonsterHealth, setCovidMonsterHealth] = useState(100);

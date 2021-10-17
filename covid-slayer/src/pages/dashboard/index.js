@@ -13,7 +13,7 @@ const Dashboard = () => {
     const [userGameWon, setUserGameWon] = useState(0);
     const [userGameLost, setUserGameLost] = useState(0);
     const history = useHistory();
-    const domain = "http://localhost:8080/";
+    const domain = process.env.REACT_APP_API_URL;
     var name = localStorage.getItem("name");
     if (localStorage.getItem("user_id") == null) {
         history.push('/');

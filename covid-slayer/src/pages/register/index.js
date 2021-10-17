@@ -53,7 +53,7 @@ const Register = () => {
     const alert = useAlert();
     const history = useHistory();
     const [form] = Form.useForm();
-    const domain = "http://localhost:8080/";
+    const domain = process.env.REACT_APP_API_URL;
 
     const onFinish = (values) => {
         const formData = new FormData();

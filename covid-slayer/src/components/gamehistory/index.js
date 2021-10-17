@@ -6,7 +6,8 @@ const { Title } = Typography;
 
 const Gamehistorydata = () => {
     const [gameHistory, setGameHistory] = useState([]);
-    const domain = "http://localhost:8080/";
+    const domain = process.env.REACT_APP_API_URL;
+
 
     const playerGameColumns = [
         {
